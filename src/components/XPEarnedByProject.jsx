@@ -6,7 +6,9 @@ const XP_Project_Chart = ({ data }) => {
   }
 
   // Map project IDs to names
-  const projectMap = data.object.reduce((acc, obj) => {
+  const projectMap = data.object
+  .filter(obj => obj.type === "project")
+  .reduce((acc, obj) => {
     acc[obj.id] = obj.name;
     return acc;
   }, {});

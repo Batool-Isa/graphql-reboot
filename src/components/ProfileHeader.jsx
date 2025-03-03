@@ -8,7 +8,7 @@ const ProfileHeader = ({ data, onLogout }) => {
       
       {/* Left Section */}
       <h2 className="fw-bold m-0">
-        Reboot Profile - {data?.user?.[0]?.login || "User"}
+        Reboot Profile
       </h2>
 
       {/* Right Section - Logout Button */}
