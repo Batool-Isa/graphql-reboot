@@ -68,28 +68,52 @@ const Profile = () => {
   const username = user.login || "user";
 
   // Calculate Total XP
-// Create a mapping of projectId -> project name for projects only
-const projectMap = data.object 
-  .filter(obj => obj.type === "project" || obj.type === "piscine" || obj.type === "quest") // Ensure only objects of type 'project'
-  .reduce((acc, obj) => {
-    acc[obj.id] = obj.name;
-    return acc;
-  }, {});
+  const projectMap = data.object
+    .filter(obj => obj.type === "project" || obj.type === "exercise" || obj.type === "piscine") // Ensure only objects of type 'project' or 'exercise'
+    .reduce((acc, obj) => {
+      acc[obj.id] = obj.name;
+      return acc;
+    }, {});
 
-// Calculate Total XP only for project transactions
-const totalXP = data.transaction
-  .filter(tx => projectMap[tx.objectId]) // Ensure XP comes from a project
-  .reduce((sum, tx) => sum + tx.amount, 0);
+  // Get the first project to determine the submission date
+  const firstProject = data.object
+    .filter(obj => obj.type === "project")
+    .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))[0]; // Sorting by creation date to get the first project
 
-const totalXPFormatted = `${(totalXP / 1000).toFixed(2)} KB`;
+  // Get the submission date of the first project
+  const firstProjectSubmissionDate = firstProject ? new Date(firstProject.createdAt) : null;
+
+  // Calculate Total XP only for project transactions and exercise transactions after the first project submission
+  const totalXP = data.transaction
+    .filter(tx => {
+      const obj = data.object.find(o => o.id === tx.objectId);
+      if (obj) {
+        if (obj.type === "project" || obj.type === "piscine") {
+          return true; // Include project transactions
+        }
+        if (obj.type === "exercise" && firstProjectSubmissionDate) {
+          const txDate = new Date(tx.timestamp);
+          return txDate > firstProjectSubmissionDate;
+        }
+
+      }
+      return false;
+    })
+    .reduce((sum, tx) => sum + tx.amount, 0);
+
+  // Format the total XP
+  const totalXPFormatted = `${(totalXP / 1000)} KB`; // Assuming the total XP is in KB (divide by 1000 if in bytes)
+
+  console.log(totalXPFormatted);
+
 
   // Calculate Audit Statistics
- // Filter transactions for "up" and "down"
-const auditsDone = data.transaction.filter(tx => tx.type === "up").length;
-const auditsReceived = data.transaction.filter(tx => tx.type === "down").length;
+  // Filter transactions for "up" and "down"
+  const auditsDone = data.transaction.filter(tx => tx.type === "up").length;
+  const auditsReceived = data.transaction.filter(tx => tx.type === "down").length;
 
-// Prevent division by zero
-const auditRatio = auditsReceived > 0 ? (auditsDone / auditsReceived).toFixed(2) : "N/A";
+  // Prevent division by zero
+  const auditRatio = auditsReceived > 0 ? (auditsDone / auditsReceived).toFixed(2) : "N/A";
 
   // Process XP by Project
   const resultArr = data.progress.map(progress => ({
@@ -157,82 +181,30 @@ const auditRatio = auditsReceived > 0 ? (auditsDone / auditsReceived).toFixed(2)
             </div>
           </div>
 
-          <h3 className="text-center fw-bold mt-4">All Transactions</h3>
-<div className="container mt-3">
-  <table className="table table-striped table-bordered shadow">
-    <thead className="table-dark">
-      <tr>
-        <th>Project/Exercise</th>
-        <th>Type</th>
-        <th>XP (KB)</th>
-        <th>Date</th>
-      </tr>
-    </thead>
-    <tbody>
-      {data?.transaction
-        ?.filter(tx => data.object.some(obj => obj.id === tx.objectId ))
-        .map((tx, index) => {
-          const relatedObject = data.object.find(obj => obj.id === tx.objectId);
-          return (
-            <tr key={index}>
-              <td>{relatedObject?.name || "Unknown"}</td>
-              <td>{relatedObject?.type}</td>
-              <td>{(tx.amount / 1000).toFixed(2)} KB</td>
-              <td>{new Date(tx.createdAt).toLocaleDateString()}</td>
-            </tr>
-          );
-        }) || (
-        <tr>
-          <td colSpan="4" className="text-center">No Transactions Available</td>
-        </tr>
-      )}
-    </tbody>
-  </table>
-</div>
+          <div className=" container">
+            <TransactionHistory data={data} />
+          </div>;
 
-          {/* Audit Statistics */}
-          <div className="col-md-6">
-            <div className="card p-4 shadow-sm" style={{ backgroundColor: "#3F4F44", borderRadius: "10px" }}>
-              <h4 className="text-white text-center">Audit Statistics</h4>
-              <p className="text-white"><strong>Done:</strong> {auditsDone}</p>
-              <p className="text-white"><strong>Received:</strong> {auditsReceived}</p>
-              <p className="text-white"><strong>Ratio:</strong> {auditRatio}</p>
-            </div>
-          </div>
+        
         </div>
       </div>
 
-  {/* XP Grades Breakdown */}
+      {/* XP Grades Breakdown */}
       <div className="container mt-4">
         <XPGrades resultArr={resultArr} allProjectNames={data.progress.map(p => p.object.name)} />
       </div>
 
       {/* XP & Project Analysis */}
       <div className="container mt-4">
-        <h3 className="text-center fw-bold mt-3">XP Progress Over Time</h3>
         <XPChart data={data.transaction} />
 
-        <h3 className="text-center fw-bold mt-3">XP Earned by Project</h3>
         <XPEarnedByProject data={data} />
 
-        
+
       </div>
 
-      <h3>All XP Transactions</h3>
-<ul>
-  {data?.transaction?.map((tx, index) => (
-    <li key={index}>
-      <strong>Amount:</strong> {tx.amount} XP | 
-      <strong> Date:</strong> {new Date(tx.createdAt).toLocaleDateString()} |
-      <strong> Object ID:</strong> {tx.objectId || "N/A"}
-    </li>
-  )) || <p>No Transactions Available</p>}
-</ul>
 
-   
-<div className="container">
-  <TransactionHistory data={data} />
-</div>;
+
     </div>
   );
 };
