@@ -183,7 +183,7 @@ const Profile = () => {
 
           <div className=" container">
             <TransactionHistory data={data} />
-          </div>;
+          </div>
 
         
         </div>

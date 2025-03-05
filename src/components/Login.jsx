@@ -46,6 +46,8 @@ const Login = ({ onLogin }) => {
   
 
   return (
+    <div style={{ backgroundColor: "#DCD7C9", minHeight: "100vh", paddingBottom: "20px" }}>
+
     <div className="container d-flex justify-content-center align-items-center vh-100">
       <div className="card p-4 shadow-lg" style={{ width: "350px" }}>
         <h2 className="text-center mb-4">Login</h2>
@@ -73,11 +75,12 @@ const Login = ({ onLogin }) => {
               required
             />
           </div>
-          <button type="submit" className="btn btn-primary w-100">
+          <button type="submit" className="btn btn-primary w-100" style={{backgroundColor : "#2C3930"}}>
             Login
           </button>
         </form>
       </div>
+    </div>
     </div>
   );
 };
