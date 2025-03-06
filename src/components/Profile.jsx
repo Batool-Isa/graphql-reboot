@@ -67,42 +67,9 @@ const Profile = () => {
   const campus = user.campus || "N/A";
   const username = user.login || "user";
 
-  // Calculate Total XP
-  const projectMap = data.object
-    .filter(obj => obj.type === "project" || obj.type === "exercise" || obj.type === "piscine") // Ensure only objects of type 'project' or 'exercise'
-    .reduce((acc, obj) => {
-      acc[obj.id] = obj.name;
-      return acc;
-    }, {});
-
-  // Get the first project to determine the submission date
-  const firstProject = data.object
-    .filter(obj => obj.type === "project")
-    .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))[0]; // Sorting by creation date to get the first project
-
-  // Get the submission date of the first project
-  const firstProjectSubmissionDate = firstProject ? new Date(firstProject.createdAt) : null;
-
-  // Calculate Total XP only for project transactions and exercise transactions after the first project submission
-  const totalXP = data.transaction
-    .filter(tx => {
-      const obj = data.object.find(o => o.id === tx.objectId);
-      if (obj) {
-        if (obj.type === "project" || obj.type === "piscine") {
-          return true; // Include project transactions
-        }
-        if (obj.type === "exercise" && firstProjectSubmissionDate) {
-          const txDate = new Date(tx.timestamp);
-          return txDate > firstProjectSubmissionDate;
-        }
-
-      }
-      return false;
-    })
-    .reduce((sum, tx) => sum + tx.amount, 0);
-
+  const totalXp = data.transaction.reduce((sum, tx) => sum + tx.amount, 0);
   // Format the total XP
-  const totalXPFormatted = `${(totalXP / 1000)} KB`; // Assuming the total XP is in KB (divide by 1000 if in bytes)
+  const totalXPFormatted = `${(totalXp / 1000)} KB`; // Assuming the total XP is in KB (divide by 1000 if in bytes)
 
   console.log(totalXPFormatted);
 

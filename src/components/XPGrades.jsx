@@ -36,44 +36,50 @@ const XPGrades = ({ resultArr, allProjectNames }) => {
   }, [resultArr, allProjectNames]);
 
   return (
-    <div className="container mt-4">
-      <h3 className="fw-bold">XP & Grades Overview</h3>
-      <div className="card shadow-sm p-4" style={{ backgroundColor: "#DCD7C9", borderRadius: "10px" }}>
+    <div className="container mt-5">
+      <h3 className="fw-bold text-center mb-4">XP & Grades Overview</h3>
+      <div className="card shadow-lg p-4" style={{ backgroundColor: "#F5F5F5", borderRadius: "15px" }}>
         <div className="row text-center">
-          {/* Total XP */}
-          <div className="col-md-4">
-            <h5 className="text-dark">Total XP</h5>
-            <p className="text-muted">{totalXp["lifetime-total"].toLocaleString()} XP</p>
-          </div>
-          {/* Average XP per Project */}
-          <div className="col-md-4">
-            <h5 className="text-dark">Avg XP / Project</h5>
-            <p className="text-muted">{totalXp["avg-project-xp"]} XP</p>
-          </div>
           {/* Max XP Project */}
           <div className="col-md-4">
-            <h5 className="text-dark">Top Project XP</h5>
-            <p className="text-muted">{totalXp.max?.projectName || "N/A"} ({totalXp.max?.xp || 0} XP)</p>
+            <div className="p-3 border rounded bg-light">
+              <h5 className="text-primary">Top Project XP</h5>
+              <p className="text-dark fw-semibold">
+                {totalXp.max?.projectName || "N/A"} ({totalXp.max?.xp || 0} XP)
+              </p>
+            </div>
           </div>
         </div>
 
-        <hr />
+        <hr className="my-4" />
 
         <div className="row text-center">
           {/* Total Grade */}
           <div className="col-md-4">
-            <h5 className="text-dark">Total Grades</h5>
-            <p className="text-muted">{totalGrade["lifetime-total"].toFixed(2)}</p>
+            <div className="p-3 border rounded bg-light">
+              <h5 className="text-success">Total Grades</h5>
+              <p className="text-dark fw-semibold">
+                {totalGrade["lifetime-total"].toFixed(2)}
+              </p>
+            </div>
           </div>
           {/* Max Grade Project */}
           <div className="col-md-4">
-            <h5 className="text-dark">Best Project Grade</h5>
-            <p className="text-muted">{totalGrade.max?.projectName || "N/A"} ({totalGrade.max?.grade || 0})</p>
+            <div className="p-3 border rounded bg-light">
+              <h5 className="text-success">Best Project Grade</h5>
+              <p className="text-dark fw-semibold">
+                {totalGrade.max?.projectName || "N/A"} ({totalGrade.max?.grade || 0})
+              </p>
+            </div>
           </div>
           {/* Min Grade Project */}
           <div className="col-md-4">
-            <h5 className="text-dark">Lowest Project Grade</h5>
-            <p className="text-muted">{totalGrade.min?.projectName || "N/A"} ({totalGrade.min?.grade || 0})</p>
+            <div className="p-3 border rounded bg-light">
+              <h5 className="text-danger">Lowest Project Grade</h5>
+              <p className="text-dark fw-semibold">
+                {totalGrade.min?.projectName || "N/A"} ({totalGrade.min?.grade || 0})
+              </p>
+            </div>
           </div>
         </div>
       </div>
