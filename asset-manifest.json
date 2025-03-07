@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Batool-Isa/graphql.git/static/css/main.9fe40f7c.css",
+    "main.js": "/Batool-Isa/graphql.git/static/js/main.331a2bf9.js",
+    "static/js/453.3f3e88ea.chunk.js": "/Batool-Isa/graphql.git/static/js/453.3f3e88ea.chunk.js",
+    "index.html": "/Batool-Isa/graphql.git/index.html",
+    "main.9fe40f7c.css.map": "/Batool-Isa/graphql.git/static/css/main.9fe40f7c.css.map",
+    "main.331a2bf9.js.map": "/Batool-Isa/graphql.git/static/js/main.331a2bf9.js.map",
+    "453.3f3e88ea.chunk.js.map": "/Batool-Isa/graphql.git/static/js/453.3f3e88ea.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9fe40f7c.css",
+    "static/js/main.331a2bf9.js"
+  ]
+}
