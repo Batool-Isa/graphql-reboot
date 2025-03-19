@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/graphql/static/css/main.9fe40f7c.css",
-    "main.js": "/graphql/static/js/main.c463f61b.js",
-    "static/js/453.3f3e88ea.chunk.js": "/graphql/static/js/453.3f3e88ea.chunk.js",
-    "index.html": "/graphql/index.html",
-    "main.9fe40f7c.css.map": "/graphql/static/css/main.9fe40f7c.css.map",
-    "main.c463f61b.js.map": "/graphql/static/js/main.c463f61b.js.map",
-    "453.3f3e88ea.chunk.js.map": "/graphql/static/js/453.3f3e88ea.chunk.js.map"
+    "main.css": "/graphql-reboot/static/css/main.9fe40f7c.css",
+    "main.js": "/graphql-reboot/static/js/main.830e9a58.js",
+    "static/js/453.3f3e88ea.chunk.js": "/graphql-reboot/static/js/453.3f3e88ea.chunk.js",
+    "index.html": "/graphql-reboot/index.html",
+    "main.9fe40f7c.css.map": "/graphql-reboot/static/css/main.9fe40f7c.css.map",
+    "main.830e9a58.js.map": "/graphql-reboot/static/js/main.830e9a58.js.map",
+    "453.3f3e88ea.chunk.js.map": "/graphql-reboot/static/js/453.3f3e88ea.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.9fe40f7c.css",
-    "static/js/main.c463f61b.js"
+    "static/js/main.830e9a58.js"
   ]
 }
