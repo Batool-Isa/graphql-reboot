@@ -10,26 +10,29 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem("token"));
 
   const handleLogin = () => {
+    localStorage.setItem("token", "dummy-token"); // Simulate authentication
     setIsAuthenticated(true);
   };
 
   useEffect(() => {
     const checkToken = () => {
       const token = localStorage.getItem("token");
-      setIsAuthenticated(!!token); // Update state when token changes
+      setIsAuthenticated(!!token);
     };
 
-    window.addEventListener("storage", checkToken); // Listen for token changes
-    return () => window.removeEventListener("storage", checkToken);
+    const interval = setInterval(checkToken, 1000); // Check token updates every second
+    return () => clearInterval(interval);
   }, []);
 
   return (
     <ApolloProvider client={client}>
       <Router>
         <Routes>
-        <Route path="/" element={isAuthenticated ? <Navigate to="/profile" /> : <Login onLogin={handleLogin} />} />
-
-          <Route path="/profile" element={isAuthenticated ? <Profile /> : <Navigate to="/" />} />
+          {/* If authenticated, redirect to profile, otherwise show login */}
+          <Route path="/" element={isAuthenticated ? <Navigate to="/profile" replace /> : <Login onLogin={handleLogin} />} />
+          
+          {/* Profile page - if not authenticated, redirect to login */}
+          <Route path="/profile" element={isAuthenticated ? <Profile /> : <Navigate to="/" replace />} />
         </Routes>
       </Router>
     </ApolloProvider>

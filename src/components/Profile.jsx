@@ -4,7 +4,6 @@ import ProfileHeader from "./ProfileHeader";
 import XPChart from "./XPChart";
 import XPEarnedByProject from "./XPEarnedByProject";
 import XPGrades from "./XPGrades";
-import AuditChart from "./AuditChart";
 import TransactionHistory from "./Transaction";
 
 const GET_USER_DATA = gql`
@@ -76,11 +75,6 @@ const Profile = () => {
 
   // Calculate Audit Statistics
   // Filter transactions for "up" and "down"
-  const auditsDone = data.transaction.filter(tx => tx.type === "up").length;
-  const auditsReceived = data.transaction.filter(tx => tx.type === "down").length;
-
-  // Prevent division by zero
-  const auditRatio = auditsReceived > 0 ? (auditsDone / auditsReceived).toFixed(2) : "N/A";
 
   // Process XP by Project
   const resultArr = data.progress.map(progress => ({
