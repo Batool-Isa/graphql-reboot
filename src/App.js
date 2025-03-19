@@ -26,7 +26,7 @@ function App() {
 
   return (
     <ApolloProvider client={client}>
-      <Router>
+      <Router basename="/graphql-reboot">
         <Routes>
           {/* If authenticated, redirect to profile, otherwise show login */}
           <Route path="/" element={isAuthenticated ? <Navigate to="/profile" replace /> : <Login onLogin={handleLogin} />} />
