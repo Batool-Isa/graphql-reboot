@@ -27,47 +27,57 @@ const tokenExpired = (token) => {
 // Function to refresh token
 const refreshToken = async () => {
   try {
-    const refresh_token = localStorage.getItem("refresh_token"); // Get refresh token
-    if (!refresh_token) throw new Error("No refresh token available");
+    const refreshToken = localStorage.getItem("refresh_token");
+    if (!refreshToken) throw new Error("No refresh token available");
 
-    const response = await axios.post("https://learn.reboot01.com/api/auth/refresh", {}, {
-      headers: { Authorization: `Bearer ${refresh_token}` },
+    const response = await axios.post("https://your-api.com/refresh-token", {
+      refresh_token: refreshToken, // 👈 or skip this if backend uses cookies
     });
 
-    const newToken = response.data.access_token;
-    localStorage.setItem("token", newToken);
-    console.log("🔄 Token refreshed successfully");
-    return newToken;
+    const newAccessToken = response.data.access_token;
+
+    if (newAccessToken) {
+      localStorage.setItem("token", newAccessToken);
+      return newAccessToken;
+    } else {
+      throw new Error("No new token in response");
+    }
   } catch (error) {
     console.error("🚨 Error refreshing token:", error);
-    localStorage.removeItem("token"); // Remove invalid token
-    localStorage.removeItem("refresh_token"); // Remove refresh token (if failed)
     return null;
   }
 };
 
-// Middleware to attach token to requests
+
 const authLink = setContext(async (_, { headers }) => {
   let token = localStorage.getItem("token");
 
-  // If token is expired, refresh it
   if (tokenExpired(token)) {
-    console.warn("⚠️ Token expired, refreshing...");
-    token = await refreshToken();
+    console.warn("⚠️ Token expired. Trying to refresh...");
+    token = await refreshToken(); // 👈 TRY to get a new token
+
+    if (!token) {
+      console.error("❌ Token refresh failed. Logging out...");
+      localStorage.removeItem("token");
+      localStorage.removeItem("refresh_token");
+      window.location.href = "/";
+      return { headers }; // Send no token
+    }
   }
 
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : "", // Attach new or existing token
+      authorization: token ? `Bearer ${token}` : "",
     },
   };
 });
 
-// Create Apollo Client
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
+
+
 
 export default client;

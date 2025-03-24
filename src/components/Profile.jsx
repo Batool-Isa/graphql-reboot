@@ -13,6 +13,8 @@ const GET_USER_DATA = gql`
       login
       attrs
       campus
+      totalUp
+      totalDown
     }
     transaction(where: { type: { _eq: "xp" } }) {
       objectId
@@ -70,6 +72,9 @@ const Profile = () => {
   // Format the total XP
   const totalXPFormatted = `${(totalXp / 1000)} KB`; // Assuming the total XP is in KB (divide by 1000 if in bytes)
 
+
+  const totalAudit = user.totalUp + user.totalDown;
+  const auditDoneRatio = (user.totalUp / totalAudit) *100;
   console.log(totalXPFormatted);
 
 
@@ -100,6 +105,10 @@ const Profile = () => {
         </h1>
       </div>
 
+<div>
+  <p>Audit</p>
+  <p>{auditDoneRatio}</p>
+</div>
       {/* Profile Information */}
       <div className="container mt-4">
         <div className="card shadow-lg p-4 text-white" style={{ backgroundColor: "#2C3930", borderRadius: "15px" }}>
@@ -130,6 +139,7 @@ const Profile = () => {
           </div>
         </div>
       </div>
+      
 
       {/* XP & Audit Statistics */}
       <div className="container mt-5">
