@@ -31,7 +31,9 @@ const Login = ({ onLogin }) => {
 
       if (response.data) {
         const token = response.data; // JWT token as string
-        localStorage.setItem("token", token);
+        localStorage.setItem("token", response.data.access_token);
+localStorage.setItem("refresh_token", response.data.refresh_token);
+
         console.log("🔐 Token saved successfully!");
 
         // Optional: Decode token for debug
