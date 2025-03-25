@@ -56,7 +56,7 @@ const Profile = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     window.dispatchEvent(new Event("storage"));
-    navigate("/");
+    navigate("/graphql-reboot");
   };
 
   // Extract User Data
