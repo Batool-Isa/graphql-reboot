@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/graphql-reboot/static/css/main.9fe40f7c.css",
-    "main.js": "/graphql-reboot/static/js/main.3a7e86e2.js",
+    "main.js": "/graphql-reboot/static/js/main.a25684ac.js",
     "static/js/453.028982bd.chunk.js": "/graphql-reboot/static/js/453.028982bd.chunk.js",
     "index.html": "/graphql-reboot/index.html",
     "main.9fe40f7c.css.map": "/graphql-reboot/static/css/main.9fe40f7c.css.map",
-    "main.3a7e86e2.js.map": "/graphql-reboot/static/js/main.3a7e86e2.js.map",
+    "main.a25684ac.js.map": "/graphql-reboot/static/js/main.a25684ac.js.map",
     "453.028982bd.chunk.js.map": "/graphql-reboot/static/js/453.028982bd.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.9fe40f7c.css",
-    "static/js/main.3a7e86e2.js"
+    "static/js/main.a25684ac.js"
   ]
 }
